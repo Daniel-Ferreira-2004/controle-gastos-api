@@ -2,6 +2,7 @@
 
 namespace ControleGastosAPI.Models
 {
+    // Representa uma pessoa cadastrada no sistema, dona de zero ou mais transações.
     public class Pessoa
     {
         public Guid Id { get; set; }

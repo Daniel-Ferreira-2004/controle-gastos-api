@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleGastosAPI.Controllers
 {
+    // Controller responsável por consolidar o resumo financeiro
+    // de todas as pessoas cadastradas.
     [ApiController]
     [Route("api/[controller]")]
     public class TotaisController : Controller
@@ -23,6 +25,8 @@ namespace ControleGastosAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<TotaisResponseDto>> GetTotais()
         {
+            // Include: traz as transações de cada pessoa já na mesma consulta,
+            // evitando que pessoa.Transacoes venha sempre vazia.
             var pessoas = await _context.Pessoas
                 .Include(p => p.Transacoes)
                 .ToListAsync();

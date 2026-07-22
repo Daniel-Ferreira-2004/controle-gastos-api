@@ -7,6 +7,8 @@ using System.Xml;
 
 namespace ControleGastosAPI.Controllers
 {
+    // Controller responsável pelo cadastro e listagem de Transações
+    // (edição/exclusão não são exigidas pelo desafio).
     [ApiController]
     [Route("api/[controller]")]
     public class TransacoesController : Controller
@@ -20,7 +22,6 @@ namespace ControleGastosAPI.Controllers
 
         // GET: api/transacoes
         // Lista todas as transações cadastradas.
-        // GET: api/transacoes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TransacaoRespostaDto>>> GetTransacoes()
         {
@@ -39,6 +40,10 @@ namespace ControleGastosAPI.Controllers
         }
 
         // POST: api/transacoes
+        // Cadastra uma nova transação, validando:
+        // 1) se a pessoa informada existe;
+        // 2) a regra de negócio principal do desafio: menores de 18 anos
+        //    só podem cadastrar Despesa, nunca Receita.
         [HttpPost]
         public async Task<ActionResult<TransacaoRespostaDto>> CriarTransacao(CriarTransacaoDto dto)
         {

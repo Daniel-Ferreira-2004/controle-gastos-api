@@ -4,6 +4,7 @@ namespace ControleGastosAPI.DTOs
 {
     public class TransacaoRespostaDto
     {
+        // Dados devolvidos ao cliente após criar/listar uma Transacao.
         public Guid Id { get; set; }
         public string Descricao { get; set; } = string.Empty;
         public decimal Valor { get; set; }

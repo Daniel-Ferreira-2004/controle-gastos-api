@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleGastosAPI.Controllers
 {
+    // Controller responsável pelo CRUD de Pessoas: criação, listagem e exclusão
+    // (edição não é exigida pelo desafio).
     [Route("api/[controller]")]
     [ApiController]
     public class PessoasController : ControllerBase
@@ -27,7 +29,7 @@ namespace ControleGastosAPI.Controllers
         }
 
         // POST: api/pessoas
-        // Cadastra uma nova pessoa
+        // Cadastra uma nova pessoa a partir de um DTO simples
         [HttpPost]
         public async Task<ActionResult<Pessoa>> CriasPessoa(CriarPessoaDto dto)
         {
@@ -48,8 +50,7 @@ namespace ControleGastosAPI.Controllers
         }
 
         // DELETE: api/pessoas/{id}
-        // Remove uma pessoa e, em cascata, todas as suas transações
-        // (comportamento configurado no AppDbContext via OnDelete(Cascade)).
+        // Remove uma pessoa. Todas as suas transações são apagadas
         [HttpDelete("{id}")]
     public async Task<IActionResult> DeletarPessoa(Guid id)
         {
