@@ -49,7 +49,7 @@ export function TransacoesPage() {
   return (
     <div>
       <h2>Transações</h2>
-      {erro && <p style={{ color: "red" }}>{erro}</p>}
+      {erro && <p className="text-danger">{erro}</p>}
       <TransacaoForm pessoas={pessoas} onCadastrar={handleCadastrar} />
       <TransacaoList transacoes={transacoes} pessoas={pessoas} />
     </div>

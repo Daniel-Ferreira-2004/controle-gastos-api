@@ -6,7 +6,6 @@ interface TransacaoListProps {
 }
 
 export function TransacaoList({ transacoes, pessoas }: TransacaoListProps) {
-  // Busca o nome da pessoa a partir do pessoaId da transação.
   function nomeDaPessoa(pessoaId: string): string {
     const pessoa = pessoas.find((p) => p.id === pessoaId);
     return pessoa ? pessoa.nome : "Desconhecida";
@@ -14,12 +13,32 @@ export function TransacaoList({ transacoes, pessoas }: TransacaoListProps) {
 
   return (
     <div>
-      <h3>Transações</h3>
-      <ul>
+      <h3 className="h5 mb-3">Transações</h3>
+
+      {transacoes.length === 0 && (
+        <p className="text-secondary">Nenhuma transação cadastrada ainda.</p>
+      )}
+
+      <ul className="list-group">
         {transacoes.map((transacao) => (
-          <li key={transacao.id}>
-            [{transacao.tipo}] {transacao.descricao} — R${" "}
-            {transacao.valor.toFixed(2)} ({nomeDaPessoa(transacao.pessoaId)})
+          <li
+            key={transacao.id}
+            className="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <span>
+              <span
+                className={`badge me-2 ${
+                  transacao.tipo === "Receita" ? "bg-success" : "bg-danger"
+                }`}
+              >
+                {transacao.tipo}
+              </span>
+              {transacao.descricao}{" "}
+              <span className="text-secondary">
+                ({nomeDaPessoa(transacao.pessoaId)})
+              </span>
+            </span>
+            <strong>R$ {transacao.valor.toFixed(2)}</strong>
           </li>
         ))}
       </ul>

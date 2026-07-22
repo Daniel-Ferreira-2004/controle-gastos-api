@@ -32,55 +32,65 @@ export function TransacaoForm({ pessoas, onCadastrar }: TransacaoFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-      <h3>Cadastrar Transação</h3>
+    <form onSubmit={handleSubmit} className="mb-4">
+      <h3 className="h5 mb-3">Cadastrar Transação</h3>
 
-      <div>
-        <label>Descrição: </label>
-        <input
-          type="text"
-          value={descricao}
-          onChange={(e) => setDescricao(e.target.value)}
-        />
+      <div className="row g-2 align-items-end">
+        <div className="col-md-3">
+          <label className="form-label">Descrição</label>
+          <input
+            type="text"
+            className="form-control"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+          />
+        </div>
+
+        <div className="col-md-2">
+          <label className="form-label">Valor</label>
+          <input
+            type="number"
+            step="0.01"
+            className="form-control"
+            value={valor}
+            onChange={(e) => setValor(e.target.value)}
+          />
+        </div>
+
+        <div className="col-md-2">
+          <label className="form-label">Tipo</label>
+          <select
+            className="form-select"
+            value={tipo}
+            onChange={(e) => setTipo(e.target.value as TipoTransacao)}
+          >
+            <option value="Despesa">Despesa</option>
+            <option value="Receita">Receita</option>
+          </select>
+        </div>
+
+        <div className="col-md-3">
+          <label className="form-label">Pessoa</label>
+          <select
+            className="form-select"
+            value={pessoaId}
+            onChange={(e) => setPessoaId(e.target.value)}
+          >
+            <option value="">Selecione...</option>
+            {pessoas.map((pessoa) => (
+              <option key={pessoa.id} value={pessoa.id}>
+                {pessoa.nome} ({pessoa.idade} anos)
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="col-md-2">
+          <button type="submit" className="btn btn-primary w-100">
+            Cadastrar
+          </button>
+        </div>
       </div>
-
-      <div>
-        <label>Valor: </label>
-        <input
-          type="number"
-          step="0.01"
-          value={valor}
-          onChange={(e) => setValor(e.target.value)}
-        />
-      </div>
-
-      <div>
-        <label>Tipo: </label>
-        <select
-          value={tipo}
-          onChange={(e) => setTipo(e.target.value as TipoTransacao)}
-        >
-          <option value="Despesa">Despesa</option>
-          <option value="Receita">Receita</option>
-        </select>
-      </div>
-
-      <div>
-        <label>Pessoa: </label>
-        <select
-          value={pessoaId}
-          onChange={(e) => setPessoaId(e.target.value)}
-        >
-          <option value="">Selecione...</option>
-          {pessoas.map((pessoa) => (
-            <option key={pessoa.id} value={pessoa.id}>
-              {pessoa.nome} ({pessoa.idade} anos)
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <button type="submit">Cadastrar</button>
     </form>
   );
 }

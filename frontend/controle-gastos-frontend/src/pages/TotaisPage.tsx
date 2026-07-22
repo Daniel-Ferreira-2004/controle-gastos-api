@@ -19,38 +19,58 @@ export function TotaisPage() {
     }
   }
 
-  if (erro) return <p style={{ color: "red" }}>{erro}</p>;
-  if (!totais) return <p>Carregando...</p>;
+  if (erro) return <p className="text-danger">{erro}</p>;
+  if (!totais) return <p className="text-secondary">Carregando...</p>;
 
   return (
     <div>
-      <h2>Totais</h2>
+      <h2 className="h4 mb-3">Totais</h2>
 
-      <table border={1} cellPadding={8} style={{ borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th>Pessoa</th>
-            <th>Receitas</th>
-            <th>Despesas</th>
-            <th>Saldo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {totais.pessoas.map((pessoa) => (
-            <tr key={pessoa.nome}>
-              <td>{pessoa.nome}</td>
-              <td>R$ {pessoa.receitas.toFixed(2)}</td>
-              <td>R$ {pessoa.despesas.toFixed(2)}</td>
-              <td>R$ {pessoa.saldo.toFixed(2)}</td>
+      <div className="table-responsive">
+        <table className="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Pessoa</th>
+              <th>Receitas</th>
+              <th>Despesas</th>
+              <th>Saldo</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {totais.pessoas.map((pessoa) => (
+              <tr key={pessoa.nome}>
+                <td>{pessoa.nome}</td>
+                <td className="text-success">R$ {pessoa.receitas.toFixed(2)}</td>
+                <td className="text-danger">R$ {pessoa.despesas.toFixed(2)}</td>
+                <td>
+                  <strong>R$ {pessoa.saldo.toFixed(2)}</strong>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <h3>Total Geral</h3>
-      <p>Total Receitas: R$ {totais.totalReceitas.toFixed(2)}</p>
-      <p>Total Despesas: R$ {totais.totalDespesas.toFixed(2)}</p>
-      <p>Saldo Geral: R$ {totais.saldoGeral.toFixed(2)}</p>
+      <div className="row mt-4">
+        <div className="col-md-4">
+          <div className="p-3 bg-body-tertiary rounded">
+            <div className="text-secondary">Total Receitas</div>
+            <div className="h4 text-success">R$ {totais.totalReceitas.toFixed(2)}</div>
+          </div>
+        </div>
+        <div className="col-md-4">
+          <div className="p-3 bg-body-tertiary rounded">
+            <div className="text-secondary">Total Despesas</div>
+            <div className="h4 text-danger">R$ {totais.totalDespesas.toFixed(2)}</div>
+          </div>
+        </div>
+        <div className="col-md-4">
+          <div className="p-3 bg-body-tertiary rounded">
+            <div className="text-secondary">Saldo Geral</div>
+            <div className="h4">R$ {totais.saldoGeral.toFixed(2)}</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -44,7 +44,7 @@ export function PessoasPage() {
   return (
     <div>
       <h2>Pessoas</h2>
-      {erro && <p style={{ color: "red" }}>{erro}</p>}
+      {erro && <p className="text-danger">{erro}</p>}
       <PessoaForm onCadastrar={handleCadastrar} />
       <PessoaList pessoas={pessoas} onDeletar={handleDeletar} />
     </div>
