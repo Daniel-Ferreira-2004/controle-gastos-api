@@ -1,4 +1,5 @@
 ﻿using ControleGastosAPI.Data;
+using ControleGastosAPI.DTOs;
 using ControleGastosAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,12 +29,17 @@ namespace ControleGastosAPI.Controllers
         // POST: api/pessoas
         // Cadastra uma nova pessoa
         [HttpPost]
-        public async Task<ActionResult<Pessoa>> CriasPessoa(Pessoa pessoa)
+        public async Task<ActionResult<Pessoa>> CriasPessoa(CriarPessoaDto dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var pessoa = new Pessoa
+            {
+                Nome = dto.Nome,
+                Idade = dto.Idade,
+            };
 
             _context.Pessoas.Add(pessoa);
             await _context.SaveChangesAsync();
