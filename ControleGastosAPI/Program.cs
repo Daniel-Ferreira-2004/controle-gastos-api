@@ -20,6 +20,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=controle.db"));
 
+// Libera o front-end (rodando localmente em modo de desenvolvimento)
+// para fazer requisições a esta API, contornando a restrição
+// padrão de CORS dos navegadores.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirFrontend", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "http://localhost:5174"
+              )
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -29,6 +44,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("PermitirFrontend");
 app.UseAuthorization();
 app.MapControllers();
 
