@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleGastosAPI.Data
 {
+    // Representa a conexão com o banco de dados e o mapeamento
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions options) : base(options)
