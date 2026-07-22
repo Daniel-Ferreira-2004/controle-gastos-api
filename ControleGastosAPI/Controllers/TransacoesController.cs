@@ -20,47 +20,60 @@ namespace ControleGastosAPI.Controllers
 
         // GET: api/transacoes
         // Lista todas as transações cadastradas.
+        // GET: api/transacoes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transacao>>> GetTransacoes()
+        public async Task<ActionResult<IEnumerable<TransacaoRespostaDto>>> GetTransacoes()
         {
-            var transacoes = await _context.Transacoes.ToListAsync();
+            var transacoes = await _context.Transacoes
+                .Select(t => new TransacaoRespostaDto
+                {
+                    Id = t.Id,
+                    Descricao = t.Descricao,
+                    Valor = t.Valor,
+                    Tipo = t.Tipo,
+                    PessoaId = t.PessoaId
+                })
+                .ToListAsync();
+
             return Ok(transacoes);
         }
 
         // POST: api/transacoes
-        // Cadastra uma nova transação, validando:
-        // 1) se a pessoa informada existe;
-        // 2) se menores de 18 anos só estão cadastrando despesas.
-
         [HttpPost]
-        public async Task<ActionResult<Transacao>> CriarTransacao(CriarTransacaoDto dto)
+        public async Task<ActionResult<TransacaoRespostaDto>> CriarTransacao(CriarTransacaoDto dto)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
+
             var pessoa = await _context.Pessoas.FindAsync(dto.PessoaId);
 
             if (pessoa == null)
-                return BadRequest("Pessoa informada não existe");
+                return BadRequest("Pessoa informada não existe.");
 
-            // Regra de negócio: menores de 18 anos só podem ter Despesa.
             if (pessoa.Idade < 18 && dto.Tipo == TipoTransacao.Receita)
-            {
                 return BadRequest("Menores de idade só podem possuir despesas.");
-            }
+
             var transacao = new Transacao
             {
                 Descricao = dto.Descricao,
                 Valor = dto.Valor,
                 Tipo = dto.Tipo,
-                PessoaId = dto.PessoaId,
+                PessoaId = dto.PessoaId
             };
 
             _context.Transacoes.Add(transacao);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetTransacoes), new { id = transacao.Id }, transacao);
+            var resposta = new TransacaoRespostaDto
+            {
+                Id = transacao.Id,
+                Descricao = transacao.Descricao,
+                Valor = transacao.Valor,
+                Tipo = transacao.Tipo,
+                PessoaId = transacao.PessoaId
+            };
+
+            return CreatedAtAction(nameof(GetTransacoes), new { id = transacao.Id }, resposta);
         }
     }
 }
